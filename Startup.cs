@@ -16,6 +16,7 @@ using WebAPI.Repositories;
 using WebAPI.Repositories.Interfaces;
 using WebAPI.Services.Interfaces;
 using WebAPI.Services;
+using WebAPI.Services.Mappings;
 
 namespace WebAPI
 {
@@ -36,13 +37,19 @@ namespace WebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            
+
             #region Repositories
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IUserRepository, UserRepository>();
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
             #endregion
 
             #region Services
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
+            #endregion
+
+            #region Mappings
+            services.AddAutoMapper(typeof(UserMappingProfile));
             #endregion
 
             services.AddControllers();

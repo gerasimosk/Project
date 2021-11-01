@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace WebAPI.Services.DTOs
+namespace WebAPI.Domain
 {
     /// <summary>
-    ///   <para>DTO for UserTitle table</para>
+    ///   <para>DTO for UserType table</para>
     /// </summary>
-    public class UserTitle
+    public class UserType
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public char Code { get; set; }
 
         public ICollection<User> User { get; set; }
     }

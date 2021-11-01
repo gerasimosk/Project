@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebAPI.Services.DTOs
+namespace WebAPI.Domain
 {
     /// <summary>
     /// DTO for User table</para>

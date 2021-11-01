@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebAPI.Domain;
 using WebAPI.Repositories.Interfaces;
-using WebAPI.Services.DTOs;
 using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Services
@@ -13,7 +13,7 @@ namespace WebAPI.Services
 
         public UserService(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new System.ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<ActionResult<List<User>>> getUsersAsync(int? pageNumber, int? pageSize, string fullName)
@@ -21,7 +21,7 @@ namespace WebAPI.Services
             return await _userRepository.GetUsersAsync(pageNumber, pageSize, fullName);
         }
 
-        public async Task<UserDetails> GetUSerById(int id)
+        public async Task<User> GetUSerById(int id)
         {
             return await _userRepository.GetUserByIdAsync(id);
         }

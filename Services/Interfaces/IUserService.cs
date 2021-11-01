@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebAPI.Services.DTOs;
+using WebAPI.Domain;
 
 namespace WebAPI.Services.Interfaces
 {
@@ -17,7 +17,7 @@ namespace WebAPI.Services.Interfaces
         /// <summary>Gets the user by identifier.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>All the information about the user</returns>
-        Task<UserDetails> GetUSerById(int id);
+        Task<User> GetUSerById(int id);
         
         /// <summary>Adds the user asynchronous.</summary>
         /// <param name="user">The user.</param>

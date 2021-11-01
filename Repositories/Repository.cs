@@ -7,13 +7,13 @@ using WebAPI.Repositories.Interfaces;
 
 namespace WebAPI.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
         protected readonly Context _context;
 
         public Repository(Context repositoryPatternDemoContext)
         {
-            _context = repositoryPatternDemoContext;
+            _context = repositoryPatternDemoContext ?? throw new ArgumentNullException(nameof(repositoryPatternDemoContext));
         }
 
         public async Task<List<TEntity>> GetAllAsync()
@@ -28,17 +28,7 @@ namespace WebAPI.Repositories
             }
         }
 
-        public IQueryable<TEntity> GetAll()
-        {
-            try
-            {
-                return _context.Set<TEntity>();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
-            }
-        }
+        public abstract IQueryable<TEntity> GetAll();        
 
         public async Task<TEntity> GetByIdAsync(int id)
         {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Domain;
 using WebAPI.Repositories.Interfaces;
 using WebAPI.Services.DTOs;
 
@@ -22,33 +23,29 @@ namespace WebAPI.Repositories
 
                 .Skip(((int)pageNumber - 1) * (int)pageSize)
                 .Take((int)pageSize)
-
-                .Select(s => new User
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Surname = s.Surname
-                })
                 .ToListAsync();
         }
 
-        public async Task<UserDetails> GetUserByIdAsync(int id)
+        public override IQueryable<User> GetAll()
+        {
+            try
+            {
+                return _context.Users
+                    .Include(q => q.UserTitle)
+                    .Include(q => q.UserType);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+            }
+        }
+
+        public async Task<User> GetUserByIdAsync(int id)
         {
             var entity = await GetAll()
                 .Where(q => q.Id == id)
-                .Select(s => new UserDetails
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Surname = s.Surname,
-                    BirthDate = s.BirthDate,
-                    UserTypeId = s.UserTypeId,
-                    UserType = s.UserType.Description,
-                    UserTitleId = s.UserTitleId,
-                    UserTitle = s.UserTitle.Description,
-                    EmailAddress = s.EmailAddress,
-                    isActive = s.isActive
-                }).FirstOrDefaultAsync();
+                .FirstOrDefaultAsync();
 
             return entity;
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebAPI.Services.DTOs;
+using WebAPI.Domain;
 
 namespace WebAPI.Repositories.Interfaces
 {
@@ -16,7 +16,7 @@ namespace WebAPI.Repositories.Interfaces
         /// <summary>Gets the user by identifier asynchronous.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Information of selected user</returns>
-        Task<UserDetails> GetUserByIdAsync(int id);
+        Task<User> GetUserByIdAsync(int id);
 
         /// <summary>Deletes the user.</summary>
         /// <param name="id">The identifier.</param>

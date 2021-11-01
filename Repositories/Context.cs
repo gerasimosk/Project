@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using WebAPI.Domain;
 using WebAPI.Services.DTOs;
 
 namespace WebAPI.Repositories
