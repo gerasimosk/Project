@@ -10,7 +10,7 @@ using WebAPI.Repositories;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211029134310_Initial")]
+    [Migration("20211101121544_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace WebAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebAPI.Services.DTOs.User", b =>
+            modelBuilder.Entity("WebAPI.Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,17 +32,17 @@ namespace WebAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
@@ -52,16 +52,13 @@ namespace WebAPI.Migrations
                     b.Property<int>("UserTypeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserTitleId");
 
                     b.HasIndex("UserTypeId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
 
                     b.HasData(
                         new
@@ -69,26 +66,26 @@ namespace WebAPI.Migrations
                             Id = 1,
                             BirthDate = new DateTime(2020, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmailAddress = "george@example.com",
+                            IsActive = true,
                             Name = "George",
                             Surname = "GeorgeSurname",
                             UserTitleId = 1,
-                            UserTypeId = 1,
-                            isActive = true
+                            UserTypeId = 1
                         },
                         new
                         {
                             Id = 2,
                             BirthDate = new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmailAddress = "nikos@example.com",
+                            IsActive = true,
                             Name = "Nikos",
                             Surname = "NikosSurname",
                             UserTitleId = 2,
-                            UserTypeId = 2,
-                            isActive = true
+                            UserTypeId = 2
                         });
                 });
 
-            modelBuilder.Entity("WebAPI.Services.DTOs.UserTitle", b =>
+            modelBuilder.Entity("WebAPI.Domain.UserTitle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +99,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserTitles");
+                    b.ToTable("UserTitle");
 
                     b.HasData(
                         new
@@ -117,7 +114,7 @@ namespace WebAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebAPI.Services.DTOs.UserType", b =>
+            modelBuilder.Entity("WebAPI.Domain.UserType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +133,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserTypes");
+                    b.ToTable("UserType");
 
                     b.HasData(
                         new
@@ -153,15 +150,15 @@ namespace WebAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebAPI.Services.DTOs.User", b =>
+            modelBuilder.Entity("WebAPI.Domain.User", b =>
                 {
-                    b.HasOne("WebAPI.Services.DTOs.UserTitle", "UserTitle")
+                    b.HasOne("WebAPI.Domain.UserTitle", "UserTitle")
                         .WithMany("User")
                         .HasForeignKey("UserTitleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebAPI.Services.DTOs.UserType", "UserType")
+                    b.HasOne("WebAPI.Domain.UserType", "UserType")
                         .WithMany("User")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

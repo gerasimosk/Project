@@ -8,7 +8,7 @@ namespace WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserTitles",
+                name: "UserTitle",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -17,11 +17,11 @@ namespace WebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTitles", x => x.Id);
+                    table.PrimaryKey("PK_UserTitle", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTypes",
+                name: "UserType",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -31,42 +31,42 @@ namespace WebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTypes", x => x.Id);
+                    table.PrimaryKey("PK_UserType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: false),
-                    Surname = table.Column<string>(maxLength: 20, nullable: false),
+                    Name = table.Column<string>(maxLength: 20, nullable: true),
+                    Surname = table.Column<string>(maxLength: 20, nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: true),
                     UserTypeId = table.Column<int>(nullable: false),
                     UserTitleId = table.Column<int>(nullable: false),
-                    EmailAddress = table.Column<string>(maxLength: 50, nullable: false),
-                    isActive = table.Column<bool>(nullable: false)
+                    EmailAddress = table.Column<string>(maxLength: 50, nullable: true),
+                    IsActive = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_UserTitles_UserTitleId",
+                        name: "FK_User_UserTitle_UserTitleId",
                         column: x => x.UserTitleId,
-                        principalTable: "UserTitles",
+                        principalTable: "UserTitle",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Users_UserTypes_UserTypeId",
+                        name: "FK_User_UserType_UserTypeId",
                         column: x => x.UserTypeId,
-                        principalTable: "UserTypes",
+                        principalTable: "UserType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "UserTitles",
+                table: "UserTitle",
                 columns: new[] { "Id", "Description" },
                 values: new object[,]
                 {
@@ -75,7 +75,7 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "UserTypes",
+                table: "UserType",
                 columns: new[] { "Id", "Code", "Description" },
                 values: new object[,]
                 {
@@ -84,36 +84,36 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDate", "EmailAddress", "Name", "Surname", "UserTitleId", "UserTypeId", "isActive" },
-                values: new object[] { 1, new DateTime(2020, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "george@example.com", "George", "GeorgeSurname", 1, 1, true });
+                table: "User",
+                columns: new[] { "Id", "BirthDate", "EmailAddress", "IsActive", "Name", "Surname", "UserTitleId", "UserTypeId" },
+                values: new object[] { 1, new DateTime(2020, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "george@example.com", true, "George", "GeorgeSurname", 1, 1 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDate", "EmailAddress", "Name", "Surname", "UserTitleId", "UserTypeId", "isActive" },
-                values: new object[] { 2, new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "nikos@example.com", "Nikos", "NikosSurname", 2, 2, true });
+                table: "User",
+                columns: new[] { "Id", "BirthDate", "EmailAddress", "IsActive", "Name", "Surname", "UserTitleId", "UserTypeId" },
+                values: new object[] { 2, new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "nikos@example.com", true, "Nikos", "NikosSurname", 2, 2 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UserTitleId",
-                table: "Users",
+                name: "IX_User_UserTitleId",
+                table: "User",
                 column: "UserTitleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UserTypeId",
-                table: "Users",
+                name: "IX_User_UserTypeId",
+                table: "User",
                 column: "UserTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "UserTitles");
+                name: "UserTitle");
 
             migrationBuilder.DropTable(
-                name: "UserTypes");
+                name: "UserType");
         }
     }
 }

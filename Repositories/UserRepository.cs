@@ -18,7 +18,7 @@ namespace WebAPI.Repositories
         public async Task<List<User>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName)
         {
             return await GetAll()
-                .Where(q => q.isActive == true)
+                .Where(q => q.IsActive == true)
                 .Where(q => (fullName != null ? (q.Name + " " + q.Surname).StartsWith(fullName) : true))
 
                 .Skip(((int)pageNumber - 1) * (int)pageSize)
@@ -30,7 +30,7 @@ namespace WebAPI.Repositories
         {
             try
             {
-                return _context.Users
+                return _context.User
                     .Include(q => q.UserTitle)
                     .Include(q => q.UserType);
 
@@ -54,7 +54,7 @@ namespace WebAPI.Repositories
         {
             var entity = await GetByIdAsync(id);
 
-            entity.isActive = false;
+            entity.IsActive = false;
             await UpdateAsync(entity);
         }
     }

@@ -11,9 +11,9 @@ namespace WebAPI.Repositories
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserTitle> UserTitles { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserTitle> UserTitle { get; set; }
+        public DbSet<UserType> UserType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,8 +21,8 @@ namespace WebAPI.Repositories
 
             builder.Entity<User>()
                 .HasData(
-                    new User { Id = 1, Name = "George", Surname = "GeorgeSurname", BirthDate = new DateTime(2020, 12, 12), UserTypeId = 1, UserTitleId = 1, EmailAddress = "george@example.com", isActive = true },
-                    new User { Id = 2, Name = "Nikos", Surname = "NikosSurname", BirthDate = new DateTime(2021, 08, 10), UserTypeId = 2, UserTitleId = 2, EmailAddress = "nikos@example.com", isActive = true }
+                    new User { Id = 1, Name = "George", Surname = "GeorgeSurname", BirthDate = new DateTime(2020, 12, 12), UserTypeId = 1, UserTitleId = 1, EmailAddress = "george@example.com", IsActive = true },
+                    new User { Id = 2, Name = "Nikos", Surname = "NikosSurname", BirthDate = new DateTime(2021, 08, 10), UserTypeId = 2, UserTitleId = 2, EmailAddress = "nikos@example.com", IsActive = true }
                     );
 
             builder.Entity<UserTitle>()
@@ -39,31 +39,49 @@ namespace WebAPI.Repositories
 
             builder.Entity<User>()
                 .Property(x => x.Name)
-                .HasMaxLength(20).IsRequired();
+                .HasMaxLength(20)
+                .IsRequired(false);
 
             builder.Entity<User>()
                 .Property(x => x.Surname)
-                .HasMaxLength(20).IsRequired();
+                .HasMaxLength(20)
+                .IsRequired(false);
+
+            builder.Entity<User>()
+               .Property(x => x.BirthDate)
+               .IsRequired(false);
+
+            builder.Entity<User>()
+                .Property(x => x.UserTypeId)
+                .IsRequired();
+
+            builder.Entity<User>()
+                .Property(x => x.UserTitleId)
+                .IsRequired();
 
             builder.Entity<User>()
                 .Property(x => x.EmailAddress)
-                .HasMaxLength(50).IsRequired();
+                .HasMaxLength(50)
+                .IsRequired(false);
 
             builder.Entity<User>()
-                .Property(x => x.Name)
-                .HasMaxLength(20).IsRequired();
+                .Property(x => x.IsActive)
+                .IsRequired(false);
 
             builder.Entity<UserTitle>()
                 .Property(x => x.Description)
-                .HasMaxLength(20).IsRequired();
+                .HasMaxLength(20)
+                .IsRequired();
 
             builder.Entity<UserType>()
                 .Property(x => x.Description)
-                .HasMaxLength(20).IsRequired();
+                .HasMaxLength(20)
+                .IsRequired();
 
             builder.Entity<UserType>()
                 .Property(x => x.Code)
-                .HasMaxLength(2).IsRequired();
+                .HasMaxLength(2)
+                .IsRequired();
 
             builder.Entity<User>()
                 .HasOne(s => s.UserTitle)
