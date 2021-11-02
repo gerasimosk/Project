@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<List<UserDetails>> GetAllUsers(int? pageNumber, int? pageSize, string fullName)
         {
-            var users = await _userService.getUsersAsync(pageNumber, pageSize, fullName);
+            var users = await _userService.GetUsersAsync(pageNumber, pageSize, fullName);
             return _mapper.Map<List<UserDetails>>(users.Value);
         }
 

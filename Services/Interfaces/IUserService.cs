@@ -12,7 +12,7 @@ namespace WebAPI.Services.Interfaces
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="fullName">The full name.</param>
         /// <returns>List of users</returns>
-        Task<ActionResult<List<User>>> getUsersAsync(int? pageNumber, int? pageSize, string fullName);
+        Task<ActionResult<List<User>>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName);
         
         /// <summary>Gets the user by identifier.</summary>
         /// <param name="id">The identifier.</param>

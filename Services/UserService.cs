@@ -16,7 +16,7 @@ namespace WebAPI.Services
             _userRepository = userRepository ?? throw new System.ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<ActionResult<List<User>>> getUsersAsync(int? pageNumber, int? pageSize, string fullName)
+        public async Task<ActionResult<List<User>>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName)
         {
             return await _userRepository.GetUsersAsync(pageNumber, pageSize, fullName);
         }
